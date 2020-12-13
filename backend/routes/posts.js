@@ -65,13 +65,13 @@ router.post('/', authorize,  (request, response) => {
 router.put('/:postId/likes', authorize, (request, response) => {
 
     // Endpoint for current user to like a post
-    userID=request.currentUser.id;
-    postID=request.params.postId;
+    const userID=request.currentUser.id;
+    const postID=request.params.postId;
 
-    PostModel.getLikesByUserIdAndPostId(userId, postId, (likes) => {
+    PostModel.getLikesByUserIdAndPostId(userID, postID, (likes) => {
         
         if (likes.length == 0) {
-            PostModel.like(userId, postId, () => {
+            PostModel.like(userID, postID, () => {
                 response.status(200).json()
             })
         } 
@@ -83,13 +83,13 @@ router.put('/:postId/likes', authorize, (request, response) => {
 router.delete('/:postId/likes', authorize, (request, response) => {
 
     // Endpoint for current user to unlike a post
-    userID=request.currentUser.id;
-    postID=request.params.postId;
+    const userID=request.currentUser.id;
+    const postID=request.params.postId;
 
-    PostModel.getLikesByUserIdAndPostId(userId, postId, (likes) => {
+    PostModel.getLikesByUserIdAndPostId(userID, postID, (likes) => {
 
         if (likes.length > 0) {
-            PostModel.unlike(userId, postId, () => {
+            PostModel.unlike(userID, postID, () => {
                 response.status(200).json()
             })
         } 
