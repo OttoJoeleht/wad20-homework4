@@ -5,3 +5,5 @@ backend/db/postit.db
 frontend/.idea/
 frontend/node_modules/
 frontend/coverage/
+frontend/package-lock.json
+backend/package-lock.json

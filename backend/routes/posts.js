@@ -26,12 +26,46 @@ router.post('/', authorize,  (request, response) => {
 
     // Endpoint to create a new post
 
+    let postData = {
+        userId: request.currentUser.id,
+        text: request.body.text,
+        media: {
+            type: request.body.media.type,
+            url: request.body.media.url
+        }
+    }
+
+    if (!postData.text) {
+        response.json({
+            code: "missing_text",
+            message: "Please provide text"
+        }, 400)
+
+        return;
+    }
+
+    if(postData.media){
+        if(typeof postData.media != "object"){
+            response.json({
+                code: "malformed_media",
+                message: "Please provide properly formated media object"
+            }, 400)
+    
+            return;
+        }
+    }
+    
+    PostModel.create(postData, () => {
+        response.status(200).json()
+    })
+
 });
 
 
 router.put('/:postId/likes', authorize, (request, response) => {
 
     // Endpoint for current user to like a post
+    
 });
 
 router.delete('/:postId/likes', authorize, (request, response) => {
