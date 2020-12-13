@@ -68,10 +68,15 @@ router.put('/:postId/likes', authorize, (request, response) => {
     userID=request.currentUser.id;
     postID=request.params.postId;
 
-    PostModel.like(userID,postID,(p) => {
-
-    
-    });
+    PostModel.getLikesByUserIdAndPostId(userId, postId, (likes) => {
+        
+        if (likes.length == 0) {
+            PostModel.like(userId, postId, () => {
+                response.status(200).json()
+            })
+        } 
+          
+    })
     
 });
 
@@ -81,10 +86,15 @@ router.delete('/:postId/likes', authorize, (request, response) => {
     userID=request.currentUser.id;
     postID=request.params.postId;
 
-    PostModel.unlike(userID,postID,(p) => {
+    PostModel.getLikesByUserIdAndPostId(userId, postId, (likes) => {
 
-    
-    });
+        if (likes.length > 0) {
+            PostModel.unlike(userId, postId, () => {
+                response.status(200).json()
+            })
+        } 
+          
+    })
 
 });
 
