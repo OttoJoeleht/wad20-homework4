@@ -100,7 +100,19 @@ describe('Posts', () => {
 
     const wrapper = mount(Posts, {router, store, localVue});
 
-    it('1 == 1', function () {
-        expect(true).toBe(true)
+    it('Test if exactly as many posts are rendered as contained in testData variable', function () {
+        expect(testData.length).toEqual(wrapper.findAll('.post').length);
+    });
+
+    it('Test if post has media property, media tags are rendered depending on media.type property', function () {
+        expect(wrapper.findAll('.post').at(0).find('.post-image').find('img').exists()).toBe(true);
+        expect(wrapper.findAll('.post').at(1).find('.post-image').exists()).toBe(false);
+        expect(wrapper.findAll('.post').at(2).find('.post-image').find('video').exists()).toBe(true);
+    });
+
+    it('Test if post create time is displayed in correct format', function () {
+        expect(wrapper.findAll('.post').at(0).find('.post-author').findAll('small').at(1).text()).toBe('Saturday, December 5, 2020 1:53 PM');
+        expect(wrapper.findAll('.post').at(1).find('.post-author').findAll('small').at(1).text()).toBe('Saturday, December 5, 2020 1:53 PM');
+        expect(wrapper.findAll('.post').at(2).find('.post-author').findAll('small').at(1).text()).toBe('Saturday, December 5, 2020 1:53 PM');
     });
 });
